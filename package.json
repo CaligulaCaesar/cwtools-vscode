@@ -206,6 +206,14 @@
                     "description": "The list of languages to validate localisation for.",
                     "uniqueItems": true
                 },
+                "cwtools.localisation.generated_strings": {
+                    "scope": "window",
+                    "type": "string",
+                    "default": [
+                        ":0 \"REPLACE_ME\""
+                    ],
+                    "description": "The string used when generating localisation strings."
+                },
                 "cwtools.errors.vanilla": {
                     "scope": "window",
                     "type": "boolean",
@@ -217,7 +225,7 @@
                     "type": "array",
                     "description": "Error codes to ignore, list of IDs",
                     "uniqueItems": true
-                },
+				},
                 "cwtools.errors.ignorefiles": {
                     "scope": "window",
                     "type": "array",
@@ -309,7 +317,7 @@
                     "minimum": 1,
                     "default": 2,
                     "description": "Maximum script file size to load in megabytes (warning, large files can "
-                }
+				}
             }
         },
         "languages": [
@@ -550,7 +558,7 @@
             "[yaml]": {
                 "files.autoGuessEncoding": true,
                 "editor.insertSpaces": true,
-                "editor.autoIndent": false,
+                "editor.autoIndent": "none",
                 "editor.wordWrap": "on"
             }
         }

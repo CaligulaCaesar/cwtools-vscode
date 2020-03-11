@@ -108,6 +108,7 @@ type Server(client: ILanguageClient) =
     let mutable experimental : bool = false
     let mutable debugMode : bool = false
     let mutable maxFileSize : int = 2
+    let mutable generatedStrings : string = ":0 \"REPLACE_ME\""
 
     let mutable ignoreCodes : string list = []
     let mutable ignoreFiles : string list = []
@@ -418,6 +419,7 @@ type Server(client: ILanguageClient) =
                         experimental = experimental
                         debug_mode = debugMode
                         maxFileSize = maxFileSize
+						generated_strings = generatedStrings
                     }
 
                 let game =
@@ -1024,7 +1026,7 @@ type Server(client: ILanguageClient) =
                             let les = game.LocalisationErrors(true, true) |> List.filter (fun e -> (e.range) |> (fun a -> a.FileName = x.AsString()))
                             let keys = les |> List.sortBy (fun e -> (e.range.FileName, e.range.StartLine))
                                            |> List.choose (fun e -> e.data)
-                                           |> List.map (sprintf " %s:0 \"REPLACE_ME\"")
+                                           |> List.map (sprintf " %s" + serverSettings.generated_strings)
                                            |> List.distinct
                             let text = String.Join(Environment.NewLine,keys)
                             //let notif = CreateVirtualFile { uri = Uri "cwtools://1"; fileContent = text }
@@ -1034,7 +1036,7 @@ type Server(client: ILanguageClient) =
                             let les = game.LocalisationErrors(true, true)
                             let keys = les |> List.sortBy (fun e-> (e.range.FileName, e.range.StartLine))
                                            |> List.choose (fun e -> e.data)
-                                           |> List.map (sprintf " %s:0 \"REPLACE_ME\"")
+                                           |> List.map (sprintf " %s" + serverSettings.generated_strings)
                                            |> List.distinct
                             let text = String.Join(Environment.NewLine,keys)
                             client.CustomNotification  ("createVirtualFile", JsonValue.Record [| "uri", JsonValue.String("cwtools://1");  "fileContent", JsonValue.String(text) |])
